@@ -4,6 +4,12 @@ import ru.netology.domain.Movie;
 
 public class MovieManager {
     private Movie[] movies = new Movie[0];
+    int feedLength = 10;
+
+    public MovieManager(){}
+    public MovieManager(int feedLength){
+        this.feedLength = feedLength;
+    }
 
     public void add (Movie movie){
         int length = movies.length+1;
@@ -24,16 +30,32 @@ public class MovieManager {
     }
 
     public void removeById(int id) {
-        int length = movies.length - 1;
-        Movie[] tmp = new Movie[length];
-        int index = 0;
-        for (Movie item : movies) {
-            if (item.getId() != id) {
-                tmp[index] = item;
-                index++;
+        boolean isIdExist = false;
+        for (Movie m : movies){
+            if (m.getId() == id) {
+                isIdExist = true;
             }
         }
-        movies = tmp;
+        if (isIdExist) {
+            int length = movies.length - 1;
+            Movie[] tmp = new Movie[length];
+            int index = 0;
+            for (Movie item : movies) {
+                if (item.getId() != id) {
+                    tmp[index] = item;
+                    index++;
+                }
+            }
+            movies = tmp;
+        }
+    }
+
+    public Movie[] showFeed(){
+        if (movies.length < feedLength) {feedLength = movies.length;}
+        Movie[] feed = new Movie[feedLength];
+        Movie[] tmp = getAll();
+        System.arraycopy(tmp,0,feed,0,feedLength);
+        return feed;
     }
 
 }
