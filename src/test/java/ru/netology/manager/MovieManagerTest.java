@@ -89,7 +89,7 @@ class MovieManagerTest {
     }
 
     @Test
-    void shouldShowFeedDefaultLength() {
+    void shouldShowFeedDefaultLengthMoreMovies() {
         Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6,movie7,movie8, movie9,movie10,movie11};
         doReturn(returned).when(repository).findAll();
 
@@ -101,7 +101,54 @@ class MovieManagerTest {
     }
 
     @Test
-    void shouldShowFeedLessDefaultLength() {
+    void shouldShowFeedDefaultLengthExactlyMovies() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6,movie7,movie8, movie9,movie10};
+        doReturn(returned).when(repository).findAll();
+
+        Movie[] expected = new Movie[]{movie10,movie9,movie8,movie7,movie6,movie5,movie4,movie3,movie2,movie1};
+        Movie[] actual = manager.showFeed();
+        assertArrayEquals(expected, actual);
+
+        verify(repository,atLeastOnce()).findAll();
+    }
+
+    @Test
+    void shouldShowFeedDefaultLengthNotEnoughMovies() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6,movie9,movie10};
+        doReturn(returned).when(repository).findAll();
+
+        Movie[] expected = new Movie[]{movie10,movie9,movie6,movie5,movie4,movie3,movie2,movie1};
+        Movie[] actual = manager.showFeed();
+        assertArrayEquals(expected, actual);
+
+        verify(repository,atLeastOnce()).findAll();
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthMoreMovies() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6};
+        doReturn(returned).when(repository).findAll();
+
+        Movie[] expected = new Movie[]{movie6,movie5,movie4,movie3,movie2};
+        Movie[] actual = manager2.showFeed();
+        assertArrayEquals(expected, actual);
+
+        verify(repository,atLeastOnce()).findAll();
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthExactlyMovies() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5};
+        doReturn(returned).when(repository).findAll();
+
+        Movie[] expected = new Movie[]{movie5,movie4,movie3,movie2,movie1};
+        Movie[] actual = manager2.showFeed();
+        assertArrayEquals(expected, actual);
+        verify(repository,atLeastOnce()).findAll();
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthNotEnoughMovies() {
         Movie[] returned = new Movie[]{movie1,movie2,movie3};
         doReturn(returned).when(repository).findAll();
 
