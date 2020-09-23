@@ -50,6 +50,9 @@ class MovieManagerTest {
         manager2.add(movie1);
         manager2.add(movie2);
         manager2.add(movie3);
+        manager2.add(movie4);
+        manager2.add(movie5);
+        manager2.add(movie6);
     }
 
     @Test

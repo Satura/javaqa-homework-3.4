@@ -6,7 +6,7 @@ import ru.netology.repository.MovieRepository;
 public class MovieManager {
 
     private MovieRepository repository;
-    int feedLength = 10;
+    private int feedLength = 10;
 
     public MovieManager(MovieRepository repository){this.repository = repository;}
     public MovieManager(MovieRepository repository, int feedLength){
@@ -32,10 +32,11 @@ public class MovieManager {
     }
 
     public Movie[] showFeed(){
-        if (repository.findAll().length < feedLength) {feedLength = repository.findAll().length;}
-        Movie[] feed = new Movie[feedLength];
+        int finalFeedLength = Math.min(repository.findAll().length, feedLength);
+        //if (repository.findAll().length < feedLength) {feedLength = repository.findAll().length;}
+        Movie[] feed = new Movie[finalFeedLength];
         Movie[] tmp = getAll();
-        System.arraycopy(tmp,0,feed,0,feedLength);
+        System.arraycopy(tmp,0,feed,0,finalFeedLength);
         return feed;
     }
 
