@@ -42,6 +42,10 @@ class MovieManagerTest {
         manager2.add(movie1);
         manager2.add(movie2);
         manager2.add(movie3);
+        manager2.add(movie4);
+        manager2.add(movie5);
+        manager2.add(movie6);
+
     }
 
     @Test
@@ -68,15 +72,53 @@ class MovieManagerTest {
     }
 
     @Test
-    void shouldShowFeedDefaultLength() {
+    void shouldShowFeedDefaultLengthMoreMovies() {
         Movie[] expected = new Movie[]{movie11,movie10,movie9,movie8,movie7,movie6,movie5,movie4,movie3,movie2};
         Movie[] actual = manager.showFeed();
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    void shouldShowFeedLessDefaultLength() {
-        Movie[] expected = new Movie[]{movie3,movie2,movie1};
+    void shouldShowFeedDefaultLengthExactlyMovies() {
+        manager.removeById(11);
+
+        Movie[] expected = new Movie[]{movie10,movie9,movie8,movie7,movie6,movie5,movie4,movie3,movie2,movie1};
+        Movie[] actual = manager.showFeed();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldShowFeedDefaultLengthNotEnoughMovies() {
+        manager.removeById(1);
+        manager.removeById(7);
+        manager.removeById(4);
+        manager.removeById(9);
+        Movie[] expected = new Movie[]{movie11,movie10,movie8,movie6,movie5,movie3,movie2};
+        Movie[] actual = manager.showFeed();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthMoreMovies() {
+        Movie[] expected = new Movie[]{movie6,movie5,movie4,movie3,movie2};
+        Movie[] actual = manager2.showFeed();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthExactlyMovies() {
+        manager2.removeById(6);
+        Movie[] expected = new Movie[]{movie5,movie4,movie3,movie2,movie1};
+        Movie[] actual = manager2.showFeed();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldShowFeedCustomLengthNotEnoughMovies() {
+        manager2.removeById(2);
+        manager2.removeById(4);
+        manager2.removeById(6);
+        Movie[] expected = new Movie[]{movie5,movie3,movie1};
         Movie[] actual = manager2.showFeed();
         assertArrayEquals(expected, actual);
     }

@@ -4,7 +4,7 @@ import ru.netology.domain.Movie;
 
 public class MovieManager {
     private Movie[] movies = new Movie[0];
-    int feedLength = 10;
+    private int feedLength = 10;
 
     public MovieManager(){}
     public MovieManager(int feedLength){
@@ -51,10 +51,16 @@ public class MovieManager {
     }
 
     public Movie[] showFeed(){
-        if (movies.length < feedLength) {feedLength = movies.length;}
-        Movie[] feed = new Movie[feedLength];
+        int finalFeedLength = 0;
+        if (movies.length < feedLength) {
+            finalFeedLength = movies.length;
+        } else {
+            finalFeedLength = feedLength;
+        }
+
+        Movie[] feed = new Movie[finalFeedLength];
         Movie[] tmp = getAll();
-        System.arraycopy(tmp,0,feed,0,feedLength);
+        System.arraycopy(tmp,0,feed,0,finalFeedLength);
         return feed;
     }
 
