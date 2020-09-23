@@ -14,7 +14,7 @@ class MovieManagerTest {
     private Movie movie1 = new Movie(1,"13-й воин", "боевик", "url_1");
     private Movie movie2 = new Movie(2,"9-ые врата", "триллер", "url_2");
     private Movie movie3 = new Movie(3,"Догма", "комедия", "url_3");
-    private Movie movie4 = new Movie(4,"Генетическа опера", "мюзикл", "url_4");
+    private Movie movie4 = new Movie(4,"Генетическая опера", "мюзикл", "url_4");
     private Movie movie5 = new Movie(5,"Белоснежка. Страшная сказка", "ужасы", "url_5");
     private Movie movie6 = new Movie(6,"13-й этаж", "боевик", "url_6");
     private Movie movie7 = new Movie(7,"Мертвец", "боевик", "url_7");
