@@ -1,57 +1,38 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Movie;
+import ru.netology.repository.MovieRepository;
 
 public class MovieManager {
-    private Movie[] movies = new Movie[0];
+
+    private MovieRepository repository;
     int feedLength = 10;
 
-    public MovieManager(){}
-    public MovieManager(int feedLength){
+    public MovieManager(MovieRepository repository){this.repository = repository;}
+    public MovieManager(MovieRepository repository, int feedLength){
+        this.repository = repository;
         this.feedLength = feedLength;
     }
 
     public void add (Movie movie){
-        int length = movies.length+1;
-        Movie[] tmp = new Movie[length];
-        System.arraycopy(movies,0,tmp,0,movies.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = movie;
-        movies = tmp;
+        repository.save(movie);
     }
 
     public Movie[] getAll() {
-        Movie[] result = new Movie[movies.length];
+        Movie[] result = new Movie[repository.findAll().length];
         for (int i = 0; i < result.length; i++) {
-            int index = movies.length - i - 1;
-            result[i] = movies[index];
+            int index = repository.findAll().length - i - 1;
+            result[i] = repository.findAll()[index];
         }
         return result;
     }
 
     public void removeById(int id) {
-        boolean isIdExist = false;
-        for (Movie m : movies){
-            if (m.getId() == id) {
-                isIdExist = true;
-            }
-        }
-        if (isIdExist) {
-            int length = movies.length - 1;
-            Movie[] tmp = new Movie[length];
-            int index = 0;
-            for (Movie item : movies) {
-                if (item.getId() != id) {
-                    tmp[index] = item;
-                    index++;
-                }
-            }
-            movies = tmp;
-        }
+        repository.removeById(id);
     }
 
     public Movie[] showFeed(){
-        if (movies.length < feedLength) {feedLength = movies.length;}
+        if (repository.findAll().length < feedLength) {feedLength = repository.findAll().length;}
         Movie[] feed = new Movie[feedLength];
         Movie[] tmp = getAll();
         System.arraycopy(tmp,0,feed,0,feedLength);

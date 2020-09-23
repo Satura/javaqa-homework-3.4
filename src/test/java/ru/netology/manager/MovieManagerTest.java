@@ -2,14 +2,24 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Movie;
-
+import ru.netology.repository.MovieRepository;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class MovieManagerTest {
 
-    private MovieManager manager = new MovieManager();
-    private MovieManager manager2= new MovieManager(5);
+    @Mock
+    private MovieRepository repository;
+    @InjectMocks
+    private MovieManager manager = new MovieManager(repository);
+    @InjectMocks
+    private MovieManager manager2= new MovieManager(repository,5);
 
     private Movie movie1 = new Movie(1,"13-й воин", "боевик", "url_1");
     private Movie movie2 = new Movie(2,"9-ые врата", "триллер", "url_2");
@@ -22,8 +32,6 @@ class MovieManagerTest {
     private Movie movie9 = new Movie(9,"Железное небо", "комедия", "url_9");
     private Movie movie10 = new Movie(10,"За бортом", "комедия", "url_10");
     private Movie movie11 = new Movie(11,"Смерть ей к лицу", "комедия", "url_11");
-
-
 
     @BeforeEach
     public void setUp() {
@@ -47,37 +55,56 @@ class MovieManagerTest {
     @Test
     void shouldRemoveIfExists() {
         int idToRemove = 4;
-        manager.removeById(idToRemove);
 
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie5,movie6,movie7,movie8, movie9,movie10,movie11};
+        doReturn(returned).when(repository).findAll();
+        doNothing().when(repository).removeById(idToRemove);
+
+        manager.removeById(idToRemove);
         Movie[] actual = manager.getAll();
         Movie[] expected = new Movie[]{movie11,movie10,movie9,movie8,movie7,movie6,movie5,movie3,movie2,movie1};
 
         assertArrayEquals(expected, actual);
+        verify(repository).removeById(idToRemove);
     }
 
     @Test
     public void shouldNotRemoveIfNotExists() {
         int idToRemove = 17;
 
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6,movie7,movie8, movie9,movie10,movie11};
+        doReturn(returned).when(repository).findAll();
+        doNothing().when(repository).removeById(idToRemove);
         manager.removeById(idToRemove);
 
         Movie[] actual = manager.getAll();
         Movie[] expected = new Movie[]{movie11,movie10,movie9,movie8,movie7,movie6,movie5,movie4,movie3,movie2,movie1};
 
         assertArrayEquals(expected, actual);
+        verify(repository).removeById(idToRemove);
+
     }
 
     @Test
     void shouldShowFeedDefaultLength() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3,movie4,movie5,movie6,movie7,movie8, movie9,movie10,movie11};
+        doReturn(returned).when(repository).findAll();
+
         Movie[] expected = new Movie[]{movie11,movie10,movie9,movie8,movie7,movie6,movie5,movie4,movie3,movie2};
         Movie[] actual = manager.showFeed();
         assertArrayEquals(expected, actual);
+
+        verify(repository,atLeastOnce()).findAll();
     }
 
     @Test
     void shouldShowFeedLessDefaultLength() {
+        Movie[] returned = new Movie[]{movie1,movie2,movie3};
+        doReturn(returned).when(repository).findAll();
+
         Movie[] expected = new Movie[]{movie3,movie2,movie1};
         Movie[] actual = manager2.showFeed();
         assertArrayEquals(expected, actual);
+        verify(repository,atLeastOnce()).findAll();
     }
 }
