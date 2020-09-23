@@ -33,7 +33,7 @@ class MovieManagerTest {
     private Movie movie10 = new Movie(10,"За бортом", "комедия", "url_10");
     private Movie movie11 = new Movie(11,"Смерть ей к лицу", "комедия", "url_11");
 
-    @BeforeEach
+    /*@BeforeEach
     public void setUp() {
         manager.add(movie1);
         manager.add(movie2);
@@ -53,7 +53,7 @@ class MovieManagerTest {
         manager2.add(movie4);
         manager2.add(movie5);
         manager2.add(movie6);
-    }
+    }*/
 
     @Test
     void shouldRemoveIfExists() {
