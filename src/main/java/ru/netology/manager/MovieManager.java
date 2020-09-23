@@ -51,12 +51,12 @@ public class MovieManager {
     }
 
     public Movie[] showFeed(){
-        int finalFeedLength = 0;
-        if (movies.length < feedLength) {
+        int finalFeedLength = Math.min(movies.length, feedLength);
+        /*if (movies.length < feedLength) {
             finalFeedLength = movies.length;
         } else {
             finalFeedLength = feedLength;
-        }
+        }*/
 
         Movie[] feed = new Movie[finalFeedLength];
         Movie[] tmp = getAll();
