@@ -33,7 +33,7 @@ public class MovieManager {
 
     public Movie[] showFeed(){
         int finalFeedLength = Math.min(repository.findAll().length, feedLength);
-        //if (repository.findAll().length < feedLength) {feedLength = repository.findAll().length;}
+
         Movie[] feed = new Movie[finalFeedLength];
         Movie[] tmp = getAll();
         System.arraycopy(tmp,0,feed,0,finalFeedLength);
